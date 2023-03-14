@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practica</title>
+    <style>
+        #div1, #div2 {
+        margin: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        }
+      </style>
+</head>
+<body>
+    <script>
+        var body = document.body;
+    
+        var div1 = document.createElement("div");
+        div1.setAttribute("id", "div1");
+    
+        var tareaLabel = document.createElement("label");
+        tareaLabel.textContent = "Tarea:";
+    
+        var tareaInput = document.createElement("input");
+        tareaInput.setAttribute("type", "text");
+        tareaInput.setAttribute("id", "tarea");
+    
+        var fecha = document.createElement("label");
+        fecha.textContent = "Fecha:";
+    
+        var inputFecha = document.createElement("input");
+        inputFecha.setAttribute("type", "date");
+        inputFecha.setAttribute("id", "fechaTarea");
+    
+        var botonAgregar = document.createElement("button");
+        botonAgregar.textContent = "Añadir tarea";
+        botonAgregar.addEventListener("click", agregarTarea);
+    
+        var mostrarTarea = document.createElement("button");
+        mostrarTarea.textContent = "Mostrar tareas";
+        mostrarTarea.addEventListener("click", mostrarTareas);
+    
+        var div2 = document.createElement("div");
+        div2.setAttribute("id", "div2");
+    
+        var tareaTitulo = document.createElement("h3");
+        tareaTitulo.textContent = "Tareas: ";
+    
+        var listaTareas = document.createElement("ol");
+        listaTareas.setAttribute("id", "listaTareas");
+    
+        var br=document.createElement("br");
+    
+        var horaActual = document.createElement("h2");
+        horaActual.setAttribute("id", "horaActual");
+    
+    
+        div1.appendChild(horaActual);
+        div1.appendChild(tareaLabel);
+        div1.appendChild(tareaInput);
+        div1.appendChild(fecha);
+        div1.appendChild(inputFecha);
+        div1.appendChild(br);
+        div1.appendChild(botonAgregar);
+        div1.appendChild(mostrarTarea);
+        div2.appendChild(tareaTitulo);
+        div2.appendChild(listaTareas);
+        body.appendChild(div1);
+        body.appendChild(div2);
+    
+    
+        var tareas = [];
+    
+    
+        muestraHora();
+        function muestraHora() {
+        var hora = new Date();
+        horaActual.textContent = hora.getHours() + ":" + hora.getMinutes() + ":" + hora.getSeconds();
+        var myTimeout = setTimeout(muestraHora, 1000);
+        }
+    
+        function agregarTarea() {
+            var tarea = document.getElementById("tarea").value;
+            var fechaTarea = new Date(document.getElementById("fechaTarea").value);
+    
+            if (tarea && fechaTarea > new Date()) {
+                tareas.push({ tarea: tarea, fecha: fechaTarea });
+                document.getElementById("tarea").value = "";
+                document.getElementById("fechaTarea").value = "";
+                alert("Añadido correctamente");
+            } else {
+                alert("Alguno de los campos no es válido");
+            }
+        }
+    
+        function mostrarTareas() {
+            var listaTareas = document.getElementById("listaTareas");
+            listaTareas.innerHTML = "";
+    
+            tareas.sort(function(a, b) {
+                return a.fecha - b.fecha;
+            });
+    
+            tareas.forEach(function(tarea) {
+                var li = document.createElement("li");
+                var fecha = new Date(tarea.fecha);
+                li.innerHTML = tarea.tarea + ": " + fecha.toLocaleDateString();
+                listaTareas.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
